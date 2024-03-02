@@ -8,8 +8,11 @@ import Header from "../components/Header.svelte";
 		@apply bg-pink-50;
 	}
 </style>
-
-<div class="p-4">
+<div class="flex">
+<div class="hidden md:block md:w-1/4"></div>
+<div class="p-4 w-full md:w-1/2">
 	<Header/>
 	<slot/>
 </div>
+<div class="hidden md:block md:w-1/4"></div>
+	</div>
