@@ -1,6 +1,6 @@
 import {postNames} from "../lib/posts.js";
 
-/** @type {import('./$types').PageLoad} */
+/** @type {import('./$types').PageServerLoad} */
 export async function load() {
 	let posts = [];
 	let i = 0;
