@@ -1,4 +1,4 @@
-import { PERSONAL_SITE_MAILGUN, PERSONAL_SITE_DOMAIN_MAILGUN, PERSONAL_SITE_USERNAME_MAILGUN } from '$env/static/private';
+import { PERSONAL_SITE_MAILGUN, PERSONAL_SITE_DOMAIN_MAILGUN, PERSONAL_SITE_USERNAME_MAILGUN, TO_ADDRESS_MAILGUN } from '$env/static/private';
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 
@@ -9,7 +9,7 @@ export const sendNewsletter = async (subject, body) => {
 
 	client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
 		from: '<newsletter@evanverma.com>',
-		to: 'newsletter@m.evanverma.com',
+		to: TO_ADDRESS_MAILGUN,
 		subject: subject,
 		html: body
 	})
