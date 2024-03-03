@@ -1,6 +1,10 @@
 <script>
 import "../app.css";
 import Header from "../components/Header.svelte";
+import { inject } from '@vercel/analytics'
+import {dev} from "$app/environment";
+
+inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <div class="flex">
