@@ -8,19 +8,21 @@
 	const text = snarkdown(data.text);
 	let authn = false;
 	const localSecretStore = writable('');
-	localSecretStore.subscribe(async value => {
-		let data = new FormData();
-		data.append('secret', value)
-		const res = await fetch(`/posts/${$page.params.slug}?/authn`, {
-			method: 'POST',
-			body: data
-		})
-		const readRes = await res.body.getReader().read()
-		authn = JSON.parse(JSON.parse(new TextDecoder().decode(readRes.value)).data)[1]
-	});
 	if (browser) {
 		localSecretStore.set(localStorage.getItem('secret'));
 	}
+	localSecretStore.subscribe(async value => {
+		if (browser) {
+			let data = new FormData();
+			data.append('secret', value)
+			const res = await fetch(`/posts/${$page.params.slug}?/authn`, {
+				method: 'POST',
+				body: data
+			})
+			const readRes = await res.body.getReader().read()
+			authn = JSON.parse(JSON.parse(new TextDecoder().decode(readRes.value)).data)[1]
+		}
+	});
 
 	const sendNewsletter = () => {
 		const emailText = text.replaceAll('../images/', 'https://evanverma.com/images/');
