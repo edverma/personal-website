@@ -4,7 +4,6 @@
 	import {browser} from "$app/environment";
 	import {writable} from "svelte/store";
 
-	export let form;
 	export let data;
 	const text = snarkdown(data.text);
 
