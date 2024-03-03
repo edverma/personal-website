@@ -20,7 +20,8 @@
 	}
 </script>
 
-<div class="text-right pb-4">
+// TODO: add subscribe form
+<div class="hidden text-right pb-4">
 	<button class="text-blue-400" on:click={sendNewsletter}>Send Newsletter</button>
 </div>
 
