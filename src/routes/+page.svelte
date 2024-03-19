@@ -1,6 +1,4 @@
 <script>
-	import Header from "../components/Header.svelte";
-
 	export let data;
 	const posts = data.posts;
 </script>
