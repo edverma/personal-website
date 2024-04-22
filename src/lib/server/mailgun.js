@@ -9,7 +9,7 @@ export const sendNewsletter = async (subject, body) => {
 
 	client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
 		from: '<newsletter@evanverma.com>',
-		to: TO_ADDRESS_MAILGUN,
+		to: 'newsletter@evanverma.com',
 		subject: subject,
 		html: body
 	})
