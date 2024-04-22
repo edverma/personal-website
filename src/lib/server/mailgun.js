@@ -8,7 +8,7 @@ const client = mailgun.client({username: PERSONAL_SITE_USERNAME_MAILGUN, key: PE
 export const sendNewsletter = async (subject, body) => {
 
 	client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
-		from: '<newsletter@evanverma.com>',
+		from: '<newsletter@m.evanverma.com>',
 		to: TO_ADDRESS_MAILGUN,
 		subject: subject,
 		html: body
