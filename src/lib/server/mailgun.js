@@ -10,6 +10,7 @@ export const sendNewsletter = async (subject, body) => {
 	client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
 		from: '<newsletter@evanverma.com>',
 		to: TO_ADDRESS_MAILGUN,
+		'h:Reply-To': 'newsletter@m.evanverma.com',
 		subject: subject,
 		html: body
 	})
