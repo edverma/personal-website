@@ -1,11 +1,14 @@
 <script>
 import "../app.css";
 import Header from "../components/Header.svelte";
-import { inject } from '@vercel/analytics'
 import {dev} from "$app/environment";
-
-inject({ mode: dev ? 'development' : 'production' });
 </script>
+
+<head>
+	{#if dev}
+		<script defer data-domain="evanverma.com" src="https://plausible.io/js/script.js"></script>
+	{/if}
+</head>
 
 <div class="flex">
 	<div class="hidden md:block md:w-1/4"></div>
