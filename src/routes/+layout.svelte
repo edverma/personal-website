@@ -5,7 +5,7 @@ import {dev} from "$app/environment";
 </script>
 
 <head>
-	{#if dev}
+	{#if !dev}
 		<script defer data-domain="evanverma.com" src="https://plausible.io/js/script.js"></script>
 	{/if}
 </head>
