@@ -5,6 +5,8 @@ import {dev} from "$app/environment";
 </script>
 
 <head>
+	<meta name=”robots” content=”noindex”>
+
 	{#if !dev}
 		<script defer data-domain="evanverma.com" src="https://plausible.io/js/script.js"></script>
 	{/if}
