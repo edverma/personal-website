@@ -1,0 +1,33 @@
+# This workflow will deploy your project on every push to the 'main' branch
+
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths: [ "src/**" ] # Whenever you commit any changes in this path, this action will trigger
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy build directory to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: ./
+          target: /home/${{secrets.USERNAME}}
+      - name: Restart server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: npm i && npm run build && sudo systemctl restart personal-site.service
