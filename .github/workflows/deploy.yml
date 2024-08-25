@@ -6,7 +6,6 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
-    paths: [ "src/**" ] # Whenever you commit any changes in this path, this action will trigger
 
 jobs:
 
