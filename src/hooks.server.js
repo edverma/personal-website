@@ -8,7 +8,7 @@ async function initializeDatabase() {
             id SERIAL PRIMARY KEY,
             img_src VARCHAR(512) NOT NULL,
             title TEXT NOT NULL,
-            slug TEXT NOT NULL,
+            slug TEXT NOT NULL UNIQUE,
             description TEXT NOT NULL,
             content TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

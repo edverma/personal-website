@@ -86,3 +86,40 @@ export async function getPostBySlug(slug: string) {
   const result = await query(queryText, [slug]);
   return result.rows[0];
 }
+
+export async function updatePost({ title, tags, description, slug, img_src, content }) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    const updatePostText = `
+      UPDATE posts
+      SET title = $1, description = $2, slug = $3, img_src = $4, content = $5, updated_at = NOW()
+      WHERE slug = $6
+      RETURNING id
+    `;
+    const res = await client.query(updatePostText, [title, description, slug, img_src, content, slug]);
+    const postId = res.rows[0].id;
+
+    const deleteTagsText = `
+      DELETE FROM tags
+      WHERE post_id = $1
+    `;
+    await client.query(deleteTagsText, [postId]);
+
+    const insertTagText = `
+      INSERT INTO tags (post_id, tag)
+      VALUES ($1, $2)
+    `;
+    for (const tag of tags.split(',')) {
+      await client.query(insertTagText, [postId, tag.trim()]);
+    }
+
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
+  } finally {
+    client.release();
+  }
+}

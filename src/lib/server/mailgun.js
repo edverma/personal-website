@@ -6,7 +6,6 @@ const mailgun = new Mailgun(formData);
 const client = mailgun.client({username: PERSONAL_SITE_USERNAME_MAILGUN, key: PERSONAL_SITE_MAILGUN});
 
 export const sendNewsletter = async (subject, body) => {
-
 	client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
 		from: '<newsletter@evanverma.com>',
 		to: TO_ADDRESS_MAILGUN,
