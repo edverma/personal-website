@@ -17,7 +17,7 @@
 	}
 
 	h2{
-		@apply text-5xl font-extralight italic text-right
+		@apply text-5xl font-extralight italic text-right mt-20
 	}
 
 	a{
@@ -26,5 +26,9 @@
 
 	body{
 		@apply text-lg
+	}
+
+	p{
+		@apply my-8
 	}
 }

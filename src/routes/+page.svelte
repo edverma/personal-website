@@ -6,7 +6,7 @@
 {#if posts}
 	{#each posts as post (post.id)}
 		<div class="text-xl font-extralight text-right">
-			<a class="text-black" href="./posts/{post.name}"> {post.displayName}</a>
+ 			<a class="text-black" href="./{post.slug}"> {post.title}</a>
 		</div>
 		<br/>
 	{/each}
