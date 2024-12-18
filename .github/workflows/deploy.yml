@@ -37,4 +37,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: npm i && npm run build && sudo systemctl restart personal-site.service
+          script: rm package-lock.json && npm i && npm run build && sudo systemctl restart personal-site.service
