@@ -1,11 +1,12 @@
 <script>
 	import Subscribe from "$lib/components/Subscribe.svelte";
 	import About from "$lib/components/About.svelte";
+	import {page} from '$app/stores';
 
 	export let data;
 	const posts = data.posts || [];
 	const aboutPost = data.aboutPost || {};
-	let tag = 'news';
+	let tag = $page.url.searchParams.get('tag') || 'news';
 </script>
 
 <div class="grid grid-cols-2">
