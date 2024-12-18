@@ -17,7 +17,7 @@ export const actions = {
 	authn: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const reqSecret = data.get('secret');
-		console.log('Attempting authentication');
+
 		if (reqSecret === SECRET) {
 			cookies.set('authenticated', 'true', {
 				httpOnly: true,
@@ -25,10 +25,9 @@ export const actions = {
 				sameSite: 'strict',
 				maxAge: 60 * 60 * 24 // 1 day
 			});
-			console.log('Authentication successful');
 			throw redirect(303, '/admin');
 		}
-		console.log('Authentication failed');
+
 		return { error: 'Invalid secret' };
 	},
 	signout: async ({ cookies }) => {
