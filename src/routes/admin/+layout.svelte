@@ -7,11 +7,13 @@ import {goto} from "$app/navigation";
 let authn = false;
 
 onMount(async () => {
+while (!browser) {
+    await new Promise(resolve => setTimeout(resolve, 10));
+}
 if (browser) {
     
     // Get secret from localStorage
     const secret = localStorage.getItem('secret');
-    console.log('secret: ', secret);
     if (!secret) {
         goto('/');
     }
