@@ -1,4 +1,4 @@
-import { DO_SPACES_KEY, DO_SPACES_SECRET, DO_FOLDER_NAME } from '$env/static/private';
+import { DO_SPACES_KEY, DO_SPACES_SECRET, DO_FOLDER_NAME, DO_BUCKET_NAME } from '$env/static/private';
 import { v4 as uuidv4 } from 'uuid';
 import fetch from 'node-fetch';
 import fs from 'fs';
@@ -15,7 +15,7 @@ export const storeImages = async content => {
     const regex = /!\[.*?\]\((.*?)\)/g;
     let match;
     while ((match = regex.exec(content)) !== null) {
-        if (!match[1].includes(`https://${DO_FOLDER_NAME}.nyc3.digitaloceanspaces.com`)) {
+        if (!match[1].includes(`https://${DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com`)) {
             imageSources.push(match[1]);
         }
     }
@@ -40,7 +40,7 @@ export const storeImages = async content => {
 
         const fileContent = fs.readFileSync(filepath);
         const params = {
-            Bucket: 'edverma',
+            Bucket: DO_BUCKET_NAME,
             Key: `${DO_FOLDER_NAME}/${filename}`,
             Body: fileContent,
             ACL: 'public-read'
