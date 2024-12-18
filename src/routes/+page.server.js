@@ -4,8 +4,7 @@ import { addMember } from '$lib/server/mailgun.js'
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
-	const aboutPost = await getPostBySlug('about');
-	return {posts: await getPosts(), aboutPost: aboutPost}; 
+	return {posts: await getPosts(), aboutPost: await getPostBySlug('about')}; 
 }
 
 /** @type {import('./$types').Actions} */
