@@ -8,21 +8,22 @@ onMount(() => {
     const localSecretStore = writable('');
     if (browser) {
         localSecretStore.set(localStorage.getItem('secret'));
-    }
-    localSecretStore.subscribe(async value => {
-        if (browser) {
-            let data = new FormData();
-            data.append('secret', value);
-            const res = await fetch(`/admin?/authn`, {
-                method: 'POST',
-                body: data
-            });
-            authn = res.ok;
-            if (!authn) {
-                window.location.href = '/';
+        
+        localSecretStore.subscribe(async value => {
+            if (browser) {
+                let data = new FormData();
+                data.append('secret', value);
+                const res = await fetch(`/admin?/authn`, {
+                    method: 'POST',
+                    body: data
+                });
+                authn = res.ok;
+                if (!authn) {
+                    window.location.href = '/';
+                }
             }
-        }
-    });
+        });
+    }
 });
 </script>
 
