@@ -1,6 +1,5 @@
 <script>
     export let data;
-    let source = data.post.content;
 </script>
 
 <svelte:head>
