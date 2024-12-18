@@ -36,6 +36,21 @@ renderer.image = function(href, title, text) {
   `;
 };
 
+renderer.list = function(body, ordered) {
+  const listType = ordered ? 'ol' : 'ul';
+  return `
+    <${listType} style="
+      margin: 2rem 0;
+      font-size: 1.25rem;
+      padding-left: 2rem;
+      list-style-position: outside;
+      ${ordered ? 'list-style-type: decimal;' : 'list-style-type: disc;'}
+    ">
+      ${body}
+    </${listType}>
+  `;
+};
+
 // Override text renderer
 renderer.text = function(text) {
   return `
