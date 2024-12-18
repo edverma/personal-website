@@ -7,6 +7,13 @@ const mailgun = new Mailgun(formData);
 const client = mailgun.client({username: PERSONAL_SITE_USERNAME_MAILGUN, key: PERSONAL_SITE_MAILGUN});
 
 export const sendNewsletter = async (subject, body) => {
+	const heading = `
+	<div style="font-size: 1.5rem; font-weight: 700; margin-top:1rem;">
+	<a style="color: black;" href="https://evanverma.com" >Evan's Weekly Newsletter</a>
+	<br/><br/>
+	</div>
+	`;
+	body = heading + body;
 	try {
 		const res = await client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
 			from: `<${mailingListAddress}>`,
