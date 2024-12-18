@@ -9,6 +9,7 @@ const pool = new Pool({
   host: POSTGRES_HOST,
   port: parseInt(POSTGRES_PORT),
   database: POSTGRES_DATABASE,
+  ssl: POSTGRES_SSL_MODE === 'require'
 });
 
 export async function query(text: string, params?: any[]) {
