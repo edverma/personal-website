@@ -1,4 +1,4 @@
-import { getPostBySlug, updatePost, setEmailSent } from "$lib/server/db.ts";
+import { getPostBySlug, updatePost, setEmailSent, deletePost } from "$lib/server/db.ts";
 import { redirect } from '@sveltejs/kit';
 import { storeImages } from '$lib';
 import marked from '$lib/marked';
@@ -59,5 +59,15 @@ export const actions = {
         }
         
         return { success: true };
+    },
+    delete: async ({ request, params }) => {
+        const data = await request.formData();
+        const reqSecret = data.get('secret');
+        if (reqSecret !== SECRET) {
+            throw new Error('Unauthorized');
+        }
+
+        await deletePost(params.post);
+        return redirect(303, '/admin');
     }
 };

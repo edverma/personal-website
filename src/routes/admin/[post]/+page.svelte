@@ -32,6 +32,19 @@
             body: formData
         });
     }
+
+    async function deletePost() {
+        if (confirm('Are you sure you want to delete this post?')) {
+            const formData = new FormData();
+            formData.append('secret', secret);
+            await fetch(`/admin/${post.slug}?/delete`, {
+                method: 'POST',
+                body: formData
+            });
+            // Redirect to admin page after deletion
+            window.location.href = '/admin';
+        }
+    }
 </script>
 
 {#if showPreview}
@@ -67,11 +80,12 @@
         <button type="button" on:click={togglePreview} class="rounded-md bg-gray-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
             {showPreview ? 'Hide Preview' : 'Show Preview'}
         </button>
+        <button type="button" on:click={deletePost} class="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Delete Post</button>
     </div>
 
     <br>
     {#if !post.email_sent}
-        <button type="button" on:click={sendEmail} class="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Send Email</button>
+        <button type="button" on:click={sendEmail} class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Send Email</button>
     {/if}
 </form>
 

@@ -130,3 +130,33 @@ export async function setEmailSent(slug: string) {
   `;
   await query(queryText, [slug]);
 }
+
+export async function deletePost(slug: string) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    const getPostIdText = `
+      SELECT id FROM posts WHERE slug = $1
+    `;
+    const res = await client.query(getPostIdText, [slug]);
+    const postId = res.rows[0].id;
+
+    const deleteTagsText = `
+      DELETE FROM tags WHERE post_id = $1
+    `;
+    await client.query(deleteTagsText, [postId]);
+
+    const deletePostText = `
+      DELETE FROM posts WHERE slug = $1
+    `;
+    await client.query(deletePostText, [slug]);
+
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
+  } finally {
+    client.release();
+  }
+}
