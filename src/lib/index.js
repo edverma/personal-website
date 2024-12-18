@@ -6,7 +6,7 @@ import path from 'path';
 import AWS from 'aws-sdk';
 
 let uploadsDir = 'static/uploads';
-if (PRODUCTION === 'true') { {
+if (PRODUCTION === 'true') {
     uploadsDir = '/home/personal-site/static/uploads';
 }
 
