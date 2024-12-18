@@ -14,10 +14,8 @@ import {dev} from "$app/environment";
 
 
 <div class="flex">
-	<div class="hidden md:block md:w-1/4"></div>
-	<div class="p-4 w-full md:w-1/2">
+	<div class="p-4 w-11/12 md:w-9/12 mx-auto">
 		<Header/>
 		<slot/>
 	</div>
-	<div class="hidden md:block md:w-1/4"></div>
 </div>
