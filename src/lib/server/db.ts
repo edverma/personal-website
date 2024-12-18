@@ -22,17 +22,19 @@ export async function query(text: string, params?: any[]) {
 
 export async function getPosts(tags: string[]) {
   let queryText = `
-      SELECT posts.id, posts.title, posts.description, posts.slug, posts.email_sent, posts.created_at, posts.updated_at,
-             array_agg(tags.tag) AS tags
+      SELECT posts.id, posts.title, posts.description, posts.slug, posts.email_sent, 
+             posts.created_at, posts.updated_at,
+             array_agg(tags.name) AS tags
       FROM posts
-      LEFT JOIN tags ON posts.id = tags.post_id
+      LEFT JOIN post_tags ON posts.id = post_tags.post_id
+      LEFT JOIN tags ON post_tags.tag_id = tags.id
     `;
 
     if (tags && tags.length > 0) {
         queryText += `
-        WHERE tags.tag = ANY($1)
+        WHERE tags.slug = ANY($1)
         GROUP BY posts.id
-        HAVING COUNT(DISTINCT tags.tag) = $2
+        HAVING COUNT(DISTINCT tags.id) = $2
         ORDER BY posts.created_at DESC
         `;
     } else {
@@ -51,6 +53,7 @@ export async function insertPost({ title, tags, description, slug, img_src, cont
   try {
     await client.query('BEGIN');
 
+    // Insert post (this part stays mostly the same)
     const insertPostText = `
       INSERT INTO posts (title, description, slug, img_src, content, created_at, updated_at)
       VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
@@ -59,12 +62,27 @@ export async function insertPost({ title, tags, description, slug, img_src, cont
     const res = await client.query(insertPostText, [title, description, slug, img_src, content]);
     const postId = res.rows[0].id;
 
-    const insertTagText = `
-      INSERT INTO tags (post_id, tag)
-      VALUES ($1, $2)
-    `;
-    for (const tag of tags.split(',')) {
-      await client.query(insertTagText, [postId, tag.trim()]);
+    // Insert tags and create relationships
+    for (const tagName of tags.split(',')) {
+      const trimmedTag = tagName.trim();
+      const slugifiedTag = trimmedTag.toLowerCase().replace(/\s+/g, '-');
+      
+      // Insert tag if it doesn't exist and get its ID
+      const upsertTagText = `
+        INSERT INTO tags (name, slug)
+        VALUES ($1, $2)
+        ON CONFLICT (slug) DO UPDATE SET name = $1
+        RETURNING id
+      `;
+      const tagResult = await client.query(upsertTagText, [trimmedTag, slugifiedTag]);
+      const tagId = tagResult.rows[0].id;
+
+      // Create post_tags relationship
+      const insertPostTagText = `
+        INSERT INTO post_tags (post_id, tag_id)
+        VALUES ($1, $2)
+      `;
+      await client.query(insertPostTagText, [postId, tagId]);
     }
 
     await client.query('COMMIT');
@@ -78,9 +96,10 @@ export async function insertPost({ title, tags, description, slug, img_src, cont
 
 export async function getPostBySlug(slug: string) {
   const queryText = `
-    SELECT posts.*, array_agg(tags.tag) as tags
+    SELECT posts.*, array_agg(tags.name) as tags
     FROM posts
-    LEFT JOIN tags ON posts.id = tags.post_id
+    LEFT JOIN post_tags ON posts.id = post_tags.post_id
+    LEFT JOIN tags ON post_tags.tag_id = tags.id
     WHERE posts.slug = $1
     GROUP BY posts.id
   `;
@@ -94,6 +113,7 @@ export async function updatePost(originalSlug: string, { title, tags, descriptio
   try {
     await client.query('BEGIN');
 
+    // Update post
     const updatePostText = `
       UPDATE posts
       SET title = $1, description = $2, slug = $3, img_src = $4, content = $5, updated_at = NOW()
@@ -103,18 +123,34 @@ export async function updatePost(originalSlug: string, { title, tags, descriptio
     const res = await client.query(updatePostText, [title, description, slug, img_src, content, originalSlug]);
     const postId = res.rows[0].id;
 
-    const deleteTagsText = `
-      DELETE FROM tags
-      WHERE post_id = $1
+    // Delete existing post_tags relationships
+    const deletePostTagsText = `
+      DELETE FROM post_tags WHERE post_id = $1
     `;
-    await client.query(deleteTagsText, [postId]);
+    await client.query(deletePostTagsText, [postId]);
 
-    const insertTagText = `
-      INSERT INTO tags (post_id, tag)
-      VALUES ($1, $2)
-    `;
-    for (const tag of tags.split(',')) {
-      await client.query(insertTagText, [postId, tag.trim()]);
+    // Insert or get tag IDs and create relationships
+    for (const tagName of tags.split(',')) {
+      const trimmedTag = tagName.trim();
+      const slugifiedTag = trimmedTag.toLowerCase().replace(/\s+/g, '-');
+      
+      // Insert tag if it doesn't exist and get its ID
+      const upsertTagText = `
+        INSERT INTO tags (name, slug)
+        VALUES ($1, $2)
+        ON CONFLICT (slug) DO UPDATE SET name = $1
+        RETURNING id
+      `;
+      const tagResult = await client.query(upsertTagText, [trimmedTag, slugifiedTag]);
+      const tagId = tagResult.rows[0].id;
+
+      // Create post_tags relationship
+      const insertPostTagText = `
+        INSERT INTO post_tags (post_id, tag_id)
+        VALUES ($1, $2)
+        ON CONFLICT (post_id, tag_id) DO NOTHING
+      `;
+      await client.query(insertPostTagText, [postId, tagId]);
     }
 
     await client.query('COMMIT');
@@ -144,11 +180,13 @@ export async function deletePost(slug: string) {
     const res = await client.query(getPostIdText, [slug]);
     const postId = res.rows[0].id;
 
-    const deleteTagsText = `
-      DELETE FROM tags WHERE post_id = $1
+    // Delete post_tags relationships first
+    const deletePostTagsText = `
+      DELETE FROM post_tags WHERE post_id = $1
     `;
-    await client.query(deleteTagsText, [postId]);
+    await client.query(deletePostTagsText, [postId]);
 
+    // Delete the post
     const deletePostText = `
       DELETE FROM posts WHERE slug = $1
     `;
