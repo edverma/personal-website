@@ -1,14 +1,11 @@
-import { DO_SPACES_KEY, DO_SPACES_SECRET, DO_FOLDER_NAME, DO_BUCKET_NAME, PRODUCTION } from '$env/static/private';
+import { DO_SPACES_KEY, DO_SPACES_SECRET, DO_FOLDER_NAME, DO_BUCKET_NAME } from '$env/static/private';
 import { v4 as uuidv4 } from 'uuid';
 import fetch from 'node-fetch';
 import fs from 'node-fs';
 import path from 'path';
 import AWS from 'aws-sdk';
 
-let uploadsDir = 'static/uploads';
-if (PRODUCTION === 'true') {
-    uploadsDir = '/home/personal-site/static/uploads';
-}
+let uploadsDir = fs.mkdtempSync('tmp-');
 
 // place files you want to import through the `$lib` alias in this folder.
 export const getSlug = (s => {
