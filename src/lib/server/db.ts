@@ -33,10 +33,12 @@ export async function getPosts(tags: string[]) {
         WHERE tags.tag = ANY($1)
         GROUP BY posts.id
         HAVING COUNT(DISTINCT tags.tag) = $2
+        ORDER BY posts.created_at DESC
         `;
     } else {
         queryText += `
         GROUP BY posts.id
+        ORDER BY posts.created_at DESC
         `;
     }
 
