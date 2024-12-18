@@ -5,13 +5,13 @@ import { getSlug, storeImages } from '$lib';
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-    create: async ({ request, cookies }) => {
-        const authenticated = cookies.get('authenticated') === 'true';
-        if (!authenticated) {
-            throw redirect(303, '/admin');
+    create: async ({ request }) => {
+        const data = await request.formData();
+        const reqSecret = data.get('secret');
+        if (reqSecret !== SECRET) {
+            throw new Error('Unauthorized');
         }
 
-        const data = await request.formData();
         const title = data.get('title').trim();
         const tags = data.get('tags').trim();
         const description = data.get('description').trim();
@@ -21,6 +21,6 @@ export const actions = {
 
         await insertPost({ title, tags, description, slug, img_src, content });
 
-        throw redirect(303, '/admin');
+        return redirect(303, '/admin');
     }
 };

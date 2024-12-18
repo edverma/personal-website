@@ -90,17 +90,3 @@ async function initializeDatabase() {
         $$;
     `);
 }
-
-/** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
-    const { url, cookies } = event;
-    const authenticated = cookies.get('authenticated') === 'true';
-
-    if (url.pathname.startsWith('/admin')) {
-        if (!authenticated && url.pathname !== '/admin') {
-            return Response.redirect('/admin', 303);
-        }
-    }
-
-    return resolve(event);
-}
