@@ -1,9 +1,14 @@
-import { DO_SPACES_KEY, DO_SPACES_SECRET, DO_FOLDER_NAME, DO_BUCKET_NAME } from '$env/static/private';
+import { DO_SPACES_KEY, DO_SPACES_SECRET, DO_FOLDER_NAME, DO_BUCKET_NAME, PRODUCTION } from '$env/static/private';
 import { v4 as uuidv4 } from 'uuid';
 import fetch from 'node-fetch';
 import fs from 'node-fs';
 import path from 'path';
 import AWS from 'aws-sdk';
+
+let uploadsDir = 'static/uploads';
+if (PRODUCTION === 'true') { {
+    uploadsDir = '/home/personal-site/static/uploads';
+}
 
 // place files you want to import through the `$lib` alias in this folder.
 export const getSlug = (s => {
@@ -35,7 +40,7 @@ export const storeImages = async content => {
 
     const newImageLinks = await Promise.all(imageSources.map(async (src, index) => {
         const filename = `image_${uuidv4()}${path.extname(src)}`;
-        const filepath = path.join('static/uploads', filename);
+        const filepath = path.join(uploadsDir, filename);
         await downloadImage(src, filepath);
 
         const fileContent = fs.readFileSync(filepath);
@@ -58,12 +63,11 @@ export const storeImages = async content => {
         });
     }));
 
-    const directory = 'static/uploads';
-    fs.readdir(directory, (err, files) => {
+    fs.readdir(uploadsDir, (err, files) => {
         if (err) throw err;
 
         for (const file of files) {
-            fs.unlink(path.join(directory, file), err => {
+            fs.unlink(path.join(uploadsDir, file), err => {
                 if (err) throw err;
             });
         }
