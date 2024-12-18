@@ -1,4 +1,4 @@
-import { SECRET, DO_SPACES_KEY, DO_SPACES_SECRET, DO_FOLDER_NAME } from '$env/static/private';
+import { SECRET } from '$env/static/private';
 import { insertPost } from '$lib/server/db.ts';
 import { redirect } from '@sveltejs/kit';
 import { getSlug, storeImages } from '$lib';
