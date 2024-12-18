@@ -33,9 +33,10 @@ export const actions = {
         const description = data.get('description').trim();
         const img_src = data.get('img_src').trim();
         const content = await storeImages(data.get('content'));
-        const slug = params.post;
+        const originalSlug = params.post;
+        const slug = data.get('slug').trim();
 
-        await updatePost({ title, tags, description, slug, img_src, content });
+        await updatePost(originalSlug, { title, tags, description, slug, img_src, content });
 
         return redirect(303, '/admin');
     },

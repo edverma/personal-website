@@ -10,7 +10,7 @@
     let description = post.description;
     let content = post.content;
     let img_src = post.img_src;
-
+    let slug = post.slug;
     let secret = '';
     if (browser) {
         secret = localStorage.getItem('secret') || '';
@@ -61,6 +61,10 @@
     <div class="mb-4">
         <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
         <input type="text" id="tags" name="tags" bind:value={tags} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+    </div>
+    <div class="mb-4">
+        <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
+        <input type="text" id="slug" name="slug" bind:value={slug} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
     </div>
     <div class="mb-4">
         <label for="description" class="block text-sm font-medium text-gray-700">Description</label>

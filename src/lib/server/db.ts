@@ -89,7 +89,7 @@ export async function getPostBySlug(slug: string) {
   return result.rows[0];
 }
 
-export async function updatePost({ title, tags, description, slug, img_src, content }) {
+export async function updatePost(originalSlug: string, { title, tags, description, slug, img_src, content }) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -100,7 +100,7 @@ export async function updatePost({ title, tags, description, slug, img_src, cont
       WHERE slug = $6
       RETURNING id
     `;
-    const res = await client.query(updatePostText, [title, description, slug, img_src, content, slug]);
+    const res = await client.query(updatePostText, [title, description, slug, img_src, content, originalSlug]);
     const postId = res.rows[0].id;
 
     const deleteTagsText = `
