@@ -19,7 +19,7 @@ renderer.paragraph = function(text) {
 
 // Override link renderer
 renderer.link = function(href, title, text) {
-  return `<a style="color: #2563eb;" href="${href}" ${title ? `title="${title}"` : ''}>${text}</a>`;
+  return `<a style="color: #2563eb;" target="_blank" href="${href}" ${title ? `title="${title}"` : ''}>${text}</a>`;
 };
 
 // Override image renderer
