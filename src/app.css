@@ -9,11 +9,11 @@
 		font-optical-sizing: auto;
 		font-weight: 300;
 		font-style: normal;
-		src: url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Raleway:ital@0;1&display=swap') format('woff2');
+		src: url('/fonts/quicksand.css') format('woff2');
 	}
 
 	h1{
-		@apply text-2xl font-bold
+		@apply text-5xl font-extralight italic mt-10
 	}
 
 	h2{
@@ -25,7 +25,7 @@
 	}
 
 	body{
-		@apply text-lg
+		@apply my-8 font-extralight text-xl tracking-wide leading-relaxed
 	}
 
 	p{
