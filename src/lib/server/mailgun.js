@@ -16,7 +16,7 @@ export const sendNewsletter = async (subject, body) => {
 	body = heading + body;
 	try {
 		const res = await client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
-			from: `<${mailingListAddress}>`,
+			from: `Evan's Weekly Newsletter <${mailingListAddress}>`,
 			to: TO_ADDRESS_MAILGUN,
 			'h:Reply-To': mailingListAddress,
 			subject: subject,

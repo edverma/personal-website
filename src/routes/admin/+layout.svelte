@@ -7,6 +7,9 @@ import {goto} from "$app/navigation";
 let authn = false;
 
 onMount(async () => {
+while (!browser) {
+    await new Promise(resolve => setTimeout(resolve, 10));
+}
 if (browser) {
     
     // Get secret from localStorage
