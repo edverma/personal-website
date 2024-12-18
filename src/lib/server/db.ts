@@ -12,7 +12,7 @@ const pool = new Pool({
   ssl: {
     rejectUnauthorized: false,
     mode: POSTGRES_SSL_MODE,
-  },
+  }
 });
 
 export async function query(text: string, params?: any[]) {
