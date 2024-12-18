@@ -7,37 +7,35 @@ import {goto} from "$app/navigation";
 const localSecretStore = writable('');
 let authn = false;
 
-onMount(() => {
-    if (browser) {
-        const secret = localStorage.getItem('secret');
-        if (!secret) {
-            goto('/');
-            return;
-        }
-        localSecretStore.set(secret);
+onMount(async () => {
+    if (!browser) return;
+    
+    // Get secret from localStorage
+    const secret = localStorage.getItem('secret');
+    if (!secret) {
+        goto('/');
+        return;
     }
     
-    localSecretStore.subscribe(async value => {
-        if (!browser || !value) return;
+    // Set store value and attempt authentication
+    localSecretStore.set(secret);
+    try {
+        const formData = new FormData();
+        formData.append('secret', secret);
         
-        try {
-            const formData = new FormData();
-            formData.append('secret', value);
-            
-            const res = await fetch(`/admin?/authn`, {
-                method: 'POST',
-                body: formData
-            });
-            
-            authn = res.ok;
-            if (!authn) {
-                goto('/');
-            }
-        } catch (error) {
-            console.error('Authentication error:', error);
+        const res = await fetch(`/admin?/authn`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        authn = res.ok;
+        if (!authn) {
             goto('/');
         }
-    });
+    } catch (error) {
+        console.error('Authentication error:', error);
+        goto('/');
+    }
 });
 </script>
 
