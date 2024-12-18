@@ -1,1 +1,6 @@
-test
+<script>
+</script>
+
+<div>
+    Test
+</div>

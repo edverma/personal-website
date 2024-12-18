@@ -8,7 +8,7 @@ import {dev} from "$app/environment";
 	<meta name=”robots” content=”noindex”>
 
 	{#if !dev}
-		<script defer data-domain="evanverma.com" src="https://plausible.io/js/script.js"></script>
+	<script defer data-domain="evanverma.com" src="https://plausible.southernsoftwaresolutions.com/js/script.js"></script>
 	{/if}
 </head>
 
