@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	const posts = data.posts;
+	const posts = data.posts || [];
 </script>
 
 <div class="grid grid-cols-2">
@@ -16,13 +16,11 @@
 
 	<div>
 		<br/>
-		{#if posts}
-			{#each posts as post (post.id)}
-				<div class="text-xl font-extralight text-right">
-					<a class="text-black" href="/{post.slug}"> {post.title}</a>
-				</div>
-				<br/>
-			{/each}
-		{/if}
+		{#each posts as post (post.id)}
+			<div class="text-xl font-extralight text-right">
+				<a class="text-black" href="/{post.slug}"> {post.title}</a>
+			</div>
+			<br/>
+		{/each}
 	</div>
 </div>
