@@ -33,8 +33,6 @@ if (browser) {
         console.error('Authentication error:', error);
         goto('/');
     }
-} else {
-    console.log('not browser');
 }
 });
 </script>
