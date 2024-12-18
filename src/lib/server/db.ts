@@ -3,16 +3,18 @@ import pkg from 'pg';
 import { getSlug } from '$lib';
 const { Pool } = pkg;
 
+const ssl = POSTGRES_SSL_MODE === 'require' ? {
+  rejectUnauthorized: false,
+  mode: POSTGRES_SSL_MODE,
+} : false;
+
 const pool = new Pool({
   user: POSTGRES_USERNAME,
   password: POSTGRES_PASSWORD,
   host: POSTGRES_HOST,
   port: parseInt(POSTGRES_PORT),
   database: POSTGRES_DATABASE,
-  ssl: {
-    rejectUnauthorized: false,
-    mode: POSTGRES_SSL_MODE,
-  }
+  ssl: ssl
 });
 
 export async function query(text: string, params?: any[]) {
