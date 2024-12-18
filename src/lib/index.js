@@ -1,7 +1,7 @@
 import { DO_SPACES_KEY, DO_SPACES_SECRET, DO_FOLDER_NAME, DO_BUCKET_NAME } from '$env/static/private';
 import { v4 as uuidv4 } from 'uuid';
 import fetch from 'node-fetch';
-import fs from 'fs';
+import fs from 'node-fs';
 import path from 'path';
 import AWS from 'aws-sdk';
 
