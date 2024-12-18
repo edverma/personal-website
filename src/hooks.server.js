@@ -11,6 +11,7 @@ async function initializeDatabase() {
             slug TEXT NOT NULL UNIQUE,
             description TEXT NOT NULL,
             content TEXT NOT NULL,
+            email_sent BOOLEAN DEFAULT FALSE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );

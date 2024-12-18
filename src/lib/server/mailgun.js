@@ -6,19 +6,20 @@ const mailgun = new Mailgun(formData);
 const client = mailgun.client({username: PERSONAL_SITE_USERNAME_MAILGUN, key: PERSONAL_SITE_MAILGUN});
 
 export const sendNewsletter = async (subject, body) => {
-	client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
-		from: '<newsletter@evanverma.com>',
-		to: TO_ADDRESS_MAILGUN,
-		'h:Reply-To': 'newsletter@m.evanverma.com',
-		subject: subject,
-		html: body
-	})
-		.then((res) => {
-			console.log(res);
-		})
-		.catch((err) => {
-			console.error(err);
+	try {
+		const res = await client.messages.create(PERSONAL_SITE_DOMAIN_MAILGUN, {
+			from: '<newsletter@evanverma.com>',
+			to: TO_ADDRESS_MAILGUN,
+			'h:Reply-To': 'newsletter@m.evanverma.com',
+			subject: subject,
+			html: body
 		});
+		console.log(res);
+		return res;
+	} catch (err) {
+		console.error(err);
+		throw err;
+	}
 }
 
 export const addMember = (name, email) => {

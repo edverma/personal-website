@@ -10,7 +10,7 @@
     let description = post.description;
     let content = post.content;
     let img_src = post.img_src;
-    
+
     let secret = '';
     if (browser) {
         secret = localStorage.getItem('secret') || '';
@@ -20,6 +20,17 @@
 
     function togglePreview() {
         showPreview = !showPreview;
+    }
+
+    async function sendEmail() {
+        const formData = new FormData();
+        formData.append('secret', secret);
+        formData.append('title', title);
+        formData.append('content', content);
+        await fetch(`/admin/${post.slug}?/sendEmail`, {
+            method: 'POST',
+            body: formData
+        });
     }
 </script>
 
@@ -57,6 +68,11 @@
             {showPreview ? 'Hide Preview' : 'Show Preview'}
         </button>
     </div>
+
+    <br>
+    {#if !post.email_sent}
+        <button type="button" on:click={sendEmail} class="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Send Email</button>
+    {/if}
 </form>
 
 {/if}

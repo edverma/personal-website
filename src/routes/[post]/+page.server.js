@@ -1,4 +1,5 @@
 import { getPostBySlug } from "$lib/server/db.ts";
+import marked from '$lib/marked';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {    
@@ -11,5 +12,6 @@ export async function load({ params }) {
 		};
 	}
 
+	post.content = marked(post.content);
 	return {post};
 }

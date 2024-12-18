@@ -22,12 +22,12 @@ export async function query(text: string, params?: any[]) {
 
 export async function getPosts(tags: string[]) {
   let queryText = `
-      SELECT posts.id, posts.title, posts.description, posts.slug, posts.created_at, posts.updated_at,
+      SELECT posts.id, posts.title, posts.description, posts.slug, posts.email_sent, posts.created_at, posts.updated_at,
              array_agg(tags.tag) AS tags
       FROM posts
       LEFT JOIN tags ON posts.id = tags.post_id
     `;
-    
+
     if (tags && tags.length > 0) {
         queryText += `
         WHERE tags.tag = ANY($1)
@@ -122,4 +122,11 @@ export async function updatePost({ title, tags, description, slug, img_src, cont
   } finally {
     client.release();
   }
+}
+
+export async function setEmailSent(slug: string) {
+  const queryText = `
+    UPDATE posts SET email_sent = TRUE WHERE slug = $1
+  `;
+  await query(queryText, [slug]);
 }
