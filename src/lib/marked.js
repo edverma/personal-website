@@ -61,8 +61,8 @@ renderer.text = function(text) {
   `;
 };
 
-marked.setOptions({
+const m = marked.setOptions({
   renderer: renderer,
 });
 
-export default marked;
+export default m;
