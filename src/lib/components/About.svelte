@@ -1,3 +1,7 @@
+<svelte:head>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</svelte:head>
+
 <script>
     import marked from '$lib/marked.js';
 

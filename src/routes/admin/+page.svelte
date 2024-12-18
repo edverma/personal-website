@@ -2,7 +2,6 @@
     export let data;
 
     let posts = data.posts;
-    console.log(posts);
 </script>
 
 <h1>Admin</h1>
