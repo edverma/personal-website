@@ -12,6 +12,7 @@ export const actions = {
 		const data = await request.formData();
 
 		const reqSecret = data.get('secret');
+		console.log('reqSecret', reqSecret);
 		if (reqSecret === SECRET) {
             return {status: 200};
 		}
