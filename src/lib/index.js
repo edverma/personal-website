@@ -15,7 +15,7 @@ export const storeImages = async content => {
     const regex = /!\[.*?\]\((.*?)\)/g;
     let match;
     while ((match = regex.exec(content)) !== null) {
-        if (!match[1].includes(`https://${DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com`)) {
+        if (!match[1].includes(`https://${DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com/${DO_FOLDER_NAME}`)) {
             imageSources.push(match[1]);
         }
     }
