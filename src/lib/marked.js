@@ -14,7 +14,7 @@ renderer.heading = function(text, level) {
 
 // Override paragraph renderer
 renderer.paragraph = function(text) {
-  return `<p style="margin-top: 2rem; margin-bottom: 2rem;">${text}</p>`;
+  return `<p style="margin-top: 2rem; margin-bottom: 2rem; font-size: 1.25rem; ">${text}</p>`;
 };
 
 // Override link renderer
@@ -33,6 +33,16 @@ renderer.image = function(href, title, text) {
     />
     <p style="font-size: 1rem; margin-top:-1.5rem; color: #6b7280; text-align: center;">${text}</p>
     <div style="margin-bottom:5rem;"></div>
+  `;
+};
+
+// Override text renderer
+renderer.text = function(text) {
+  return `
+    <span style="font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    margin: 2rem 0; font-weight: 200; letter-spacing: 0.025em; line-height: 1.75;">
+      ${text}
+    </span>
   `;
 };
 

@@ -5,6 +5,6 @@
     const htmlContent = marked(content);
 </script>
 
-<div class="ml-8 mt-8 text-right">
+<div class="ml-8 mt-[-3rem] text-right">
 	{@html htmlContent}
 </div>

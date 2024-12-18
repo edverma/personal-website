@@ -12,23 +12,4 @@
 		src: url('/fonts/quicksand.css') format('woff2');
 	}
 
-	h1{
-		@apply text-5xl font-extralight italic mt-10
-	}
-
-	h2{
-		@apply text-5xl font-extralight italic text-right mt-20
-	}
-
-	a{
-		@apply text-blue-600
-	}
-
-	body{
-		@apply my-8 font-extralight text-xl tracking-wide leading-relaxed
-	}
-
-	p{
-		@apply my-8
-	}
 }

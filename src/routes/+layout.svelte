@@ -13,7 +13,7 @@ import {dev} from "$app/environment";
 </head>
 
 
-<div class="flex max-w-screen-xl mx-auto">
+<div class="flex max-w-screen-xl mx-auto my-8">
 	<div class="p-4 w-11/12 md:w-9/12 mx-auto">
 		<Header/>
 		<slot/>
