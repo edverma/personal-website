@@ -1,6 +1,5 @@
 import { getPosts } from "../../lib/server/db.ts";
 import { SECRET } from "$env/static/private";
-import { redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {

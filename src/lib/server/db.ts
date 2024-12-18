@@ -1,5 +1,6 @@
 import {POSTGRES_USERNAME, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DATABASE, POSTGRES_SSL_MODE} from '$env/static/private';
 import pkg from 'pg';
+import { getSlug } from '$lib';
 const { Pool } = pkg;
 
 const pool = new Pool({
@@ -24,7 +25,7 @@ export async function getPosts(tags: string[]) {
   let queryText = `
       SELECT posts.id, posts.title, posts.description, posts.slug, posts.email_sent, 
              posts.created_at, posts.updated_at,
-             array_agg(tags.name) AS tags
+             array_agg(tags.slug) AS tags
       FROM posts
       LEFT JOIN post_tags ON posts.id = post_tags.post_id
       LEFT JOIN tags ON post_tags.tag_id = tags.id
@@ -65,7 +66,7 @@ export async function insertPost({ title, tags, description, slug, img_src, cont
     // Insert tags and create relationships
     for (const tagName of tags.split(',')) {
       const trimmedTag = tagName.trim();
-      const slugifiedTag = trimmedTag.toLowerCase().replace(/\s+/g, '-');
+      const slugifiedTag = getSlug(trimmedTag);
       
       // Insert tag if it doesn't exist and get its ID
       const upsertTagText = `
@@ -199,4 +200,12 @@ export async function deletePost(slug: string) {
   } finally {
     client.release();
   }
+}
+
+export async function getTags() {
+  const queryText = `
+    SELECT * FROM tags
+  `;
+  const result = await query(queryText);
+  return result.rows;
 }

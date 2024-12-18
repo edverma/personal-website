@@ -6,6 +6,7 @@
 	export let data;
 	const posts = data.posts || [];
 	const aboutPost = data.aboutPost || {};
+	const dbTags = data.dbTags || [];
 	let tag = $page.url.searchParams.get('tag') || 'news';
 </script>
 
@@ -24,19 +25,17 @@
 		</div>
 		<br/>
 		<hr/>
-		<br/>
-		<div class="text-xl {tag === 'news' ? 'font-bold' : 'font-extralight'} text-left">
-			<button class="text-black" on:click={() => tag = 'news'}>
-				News
-			</button>
-		</div>
-		<br/><br/>
-		<div class="text-xl {tag === 'tech' ? 'font-bold' : 'font-extralight'} text-left">
-			<button class="text-black" on:click={() => tag = 'tech'}>
-				Tech
-			</button>
-		</div>
-
+		{#each dbTags as dbTag (dbTag.id)}
+			{#if dbTag.slug !== 'about'}
+				<br/>
+				<div class="text-xl {tag === dbTag.slug ? 'font-bold' : 'font-extralight'} text-left">
+					<button class="text-black" on:click={() => tag = dbTag.slug}>
+						{dbTag.name}
+					</button>
+				</div>
+				<br/>
+			{/if}
+		{/each}
 	</div>
 
 	<div>
