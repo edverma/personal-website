@@ -211,6 +211,7 @@ export async function deletePost(slug: string) {
 export async function getTags() {
   const queryText = `
     SELECT * FROM tags
+    ORDER BY created_at DESC
   `;
   const result = await query(queryText);
   return result.rows;
