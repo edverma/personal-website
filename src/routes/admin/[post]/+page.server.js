@@ -1,9 +1,10 @@
-import { getPostBySlug, updatePost, setEmailSent, deletePost } from "$lib/server/db.ts";
+import { getPostBySlug, updatePost, setEmailSent, deletePost, setNostrLongformPublished } from "$lib/server/db.ts";
 import { redirect } from '@sveltejs/kit';
 import { storeImages } from '$lib';
 import marked from '$lib/marked';
 import { SECRET } from '$env/static/private';
 import { sendNewsletter } from '$lib/server/mailgun.js';
+import { publishLongFormNote } from '$lib/server/nostr.js';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {    
@@ -70,5 +71,28 @@ export const actions = {
 
         await deletePost(params.post);
         return redirect(303, '/admin');
-    }
+    },
+    publishLongFormNote: async ({ request, params }) => {
+        const data = await request.formData();
+        const reqSecret = data.get('secret');
+        if (reqSecret !== SECRET) {
+            throw new Error('Unauthorized');
+        }
+
+        const title = data.get('title').trim();
+        const content = data.get('content');
+        const description = data.get('description').trim();
+        const img_src = data.get('img_src').trim();
+        const created_at = data.get('created_at');
+
+        try {
+            await publishLongFormNote(content, title, img_src, description, created_at);
+            await setNostrLongformPublished(params.post);
+        } catch(err) {
+            console.error(err);
+            return { success: false, error: err.message };
+        }
+        
+        return { success: true };
+    },
 };

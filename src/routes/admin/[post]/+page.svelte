@@ -27,7 +27,24 @@
         formData.append('secret', secret);
         formData.append('title', title);
         formData.append('content', content);
+        formData.append('description', description);
+        formData.append('img_src', img_src);
+        formData.append('created_at', post.created_at);
         await fetch(`/admin/${post.slug}?/sendEmail`, {
+            method: 'POST',
+            body: formData
+        });
+    }
+
+    async function publishLongFormNote() {
+        const formData = new FormData();
+        formData.append('secret', secret);
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('description', description);
+        formData.append('img_src', img_src);
+        formData.append('created_at', post.created_at);
+        await fetch(`/admin/${post.slug}?/publishLongFormNote`, {
             method: 'POST',
             body: formData
         });
@@ -88,9 +105,14 @@
     </div>
 
     <br>
-    {#if !post.email_sent}
-        <button type="button" on:click={sendEmail} class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Send Email</button>
-    {/if}
+    <div class="flex gap-4">
+        {#if !post.email_sent}
+            <button type="button" on:click={sendEmail} class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Send Email</button>
+        {/if}
+        {#if !post.nostr_longform_published}
+            <button type="button" on:click={publishLongFormNote} class="rounded-md bg-pink-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600">Publish to Nostr</button>
+        {/if}
+    </div>
 </form>
 
 {/if}
