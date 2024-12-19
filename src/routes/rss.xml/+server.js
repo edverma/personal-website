@@ -20,7 +20,7 @@ export async function GET() {
                             <title>${escapeXml(post.title)}</title>
                             <link>${BASE_URL}/${post.slug}</link>
                             <description>${escapeXml(post.description || '')}</description>
-                            <pubDate>${new Date(post.created_at).toUTCString()}</pubDate>
+                            <pubDate>${new Date(post.created_at).toString()}</pubDate>
                             <guid>${BASE_URL}/${post.slug}</guid>
                         </item>
                     `
