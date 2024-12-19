@@ -1,13 +1,4 @@
 import { marked } from 'marked';
-import { browser } from '$app/environment';
-
-let m;
-if (browser) {
-  const { marked } = window;
-  m = marked;
-} else {
-  m = marked;
-}
 
 const renderer = new marked.Renderer();
 
