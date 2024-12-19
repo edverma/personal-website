@@ -70,6 +70,10 @@ renderer.text = function(text) {
   `;
 };
 
+renderer.blockquote = function(text) {
+  return `<blockquote style="font-size: 1.25rem; margin-top: 2rem; margin-bottom: 2rem; padding-left: 2rem; border-left: 2px solid #2563eb;">${text}</blockquote>`;
+};
+
 marked.setOptions({
   renderer: renderer,
 });
