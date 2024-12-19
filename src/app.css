@@ -13,7 +13,7 @@
 	}
 
 	body {
-		@apply dark:bg-slate-800 dark:text-white
+		@apply bg-slate-100 dark:bg-slate-800 dark:text-white
 	}
 
 	p {
