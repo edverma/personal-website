@@ -4,15 +4,27 @@ import * as nip19 from 'nostr-tools/nip19'
 import { NOSTR_RELAYS, NOSTR_SECRET_KEY } from '$env/static/private';
 
 export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summary, published_at, slug) => {
+    // Normalize markdown: split on double newlines to preserve paragraph structure
+    const normalizedContent = contentMarkdown
+        .split(/\n\n+/)  // Split on 2 or more newlines to handle multiple blank lines
+        .map(paragraph => {
+            // Preserve formatting for headers, lists, blockquotes, and code blocks
+            if (paragraph.match(/^(#{1,6} |[*-]|\d+\.|>|\s{4}|\t|```)/m)) {
+                return paragraph;
+            }
+            // For regular paragraphs, remove all line breaks
+            return paragraph.replace(/\n/g, ' ').trim();
+        })
+        .join('\n\n')
+        .trim();
+    
     const relayUrls = NOSTR_RELAYS.split(',').map(url => url.trim());
-    let { type, data } = nip19.decode(NOSTR_SECRET_KEY)
+    let { data } = nip19.decode(NOSTR_SECRET_KEY)
     const nsec = data;
-    const npub = getPublicKey(nsec);
 
     // Create a relay pool
     const pool = new SimplePool(relayUrls);
 
-    // Build the NIP-23 event
     const event = {
         kind: 30023,
         created_at: Math.floor(Date.now() / 1000),
@@ -24,7 +36,7 @@ export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summ
             ["t", "article"],
             ["d", slug],
         ],
-        content: contentMarkdown.trim()
+        content: normalizedContent
     };
 
     const signedEvent = finalizeEvent(event, nsec)
