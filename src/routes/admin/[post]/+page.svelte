@@ -55,27 +55,27 @@
 
 <form action={`/admin/${post.slug}?/update`} method="POST">
     <div class="mb-4">
-        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-white">Title</label>
         <input type="text" id="title" name="title" bind:value={title} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
     </div>
     <div class="mb-4">
-        <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
+        <label for="tags" class="block text-sm font-medium text-gray-700 dark:text-white">Tags</label>
         <input type="text" id="tags" name="tags" bind:value={tags} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
     </div>
     <div class="mb-4">
-        <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
+        <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-white">Slug</label>
         <input type="text" id="slug" name="slug" bind:value={slug} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
     </div>
     <div class="mb-4">
-        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+        <label for="description" class="block text-sm font-medium text-gray-700 dark:text-white">Description</label>
         <textarea id="description" name="description" bind:value={description} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
     </div>
     <div class="mb-4">
-        <label for="img_src" class="block text-sm font-medium text-gray-700">Image Source</label>
+        <label for="img_src" class="block text-sm font-medium text-gray-700 dark:text-white">Image Source</label>
         <input type="text" id="img_src" name="img_src" bind:value={img_src} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
     </div>
     <div class="mb-4">
-        <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+        <label for="content" class="block text-sm font-medium text-gray-700 dark:text-white">Content</label>
         <textarea id="content" name="content" bind:value={content} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
     </div>
     <input type="hidden" name="secret" value={secret} />
