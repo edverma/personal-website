@@ -13,28 +13,6 @@ export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summ
     // Create a relay pool
     const pool = new SimplePool(relayUrls);
 
-    try {
-        let h = pool.subscribeMany(
-            relayUrls,
-            [
-                {
-                    authors: [npub],
-                },
-            ],
-            {
-                onevent(event) {
-                    console.log('Event received:', event);
-                },
-                oneose() {
-                    h.close()
-                }
-            }
-        )
-    } catch(err) {
-        console.error('Error subscribing to relays:', err);
-        throw err;
-    }
-
     // Build the NIP-23 event
     const event = {
         kind: 30023,
@@ -59,5 +37,8 @@ export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summ
     } catch(err) {
         console.error('Error publishing event:', err);
         throw err;
+    } finally {
+        // Make sure to close the pool
+        pool.close()
     }
 }
