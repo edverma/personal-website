@@ -12,7 +12,6 @@ async function initializeDatabase() {
             description TEXT NOT NULL,
             content TEXT NOT NULL,
             email_sent BOOLEAN DEFAULT FALSE,
-            nostr_longform_published BOOLEAN DEFAULT FALSE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );

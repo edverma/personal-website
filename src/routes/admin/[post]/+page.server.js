@@ -1,4 +1,4 @@
-import { getPostBySlug, updatePost, setEmailSent, deletePost, setNostrLongformPublished } from "$lib/server/db.ts";
+import { getPostBySlug, updatePost, setEmailSent, deletePost } from "$lib/server/db.ts";
 import { redirect } from '@sveltejs/kit';
 import { storeImages } from '$lib';
 import marked from '$lib/marked';
@@ -87,7 +87,6 @@ export const actions = {
 
         try {
             await publishLongFormNote(content, title, img_src, description, created_at, params.post);
-            await setNostrLongformPublished(params.post);
         } catch(err) {
             console.error(err);
             return { success: false, error: err.message };

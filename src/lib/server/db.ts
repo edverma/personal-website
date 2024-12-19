@@ -29,7 +29,7 @@ export async function query(text: string, params?: any[]) {
 
 export async function getPosts(tags: string[]) {
   let queryText = `
-      SELECT posts.id, posts.title, posts.description, posts.slug, posts.email_sent, posts.nostr_longform_published,
+      SELECT posts.id, posts.title, posts.description, posts.slug, posts.email_sent,
              posts.created_at, posts.updated_at,
              array_agg(tags.slug) AS tags
       FROM posts
@@ -172,13 +172,6 @@ export async function updatePost(originalSlug: string, { title, tags, descriptio
 export async function setEmailSent(slug: string) {
   const queryText = `
     UPDATE posts SET email_sent = TRUE WHERE slug = $1
-  `;
-  await query(queryText, [slug]);
-}
-
-export async function setNostrLongformPublished(slug: string) {
-  const queryText = `
-    UPDATE posts SET nostr_longform_published = TRUE WHERE slug = $1
   `;
   await query(queryText, [slug]);
 }
