@@ -18,12 +18,12 @@ import {dev} from "$app/environment";
 	<div class="p-4 w-11/12 md:w-9/12 mx-auto">
 		<Header/>
 		<slot/>
-		<!--
+
 			<div class="sticky top-[90vh]">
 				<hr/>
 				<Footer/>
 			</div>
-		-->
+
 	</div>
 </div>
 

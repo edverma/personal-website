@@ -21,7 +21,7 @@
 	}
 
 	a {
-		@apply dark:text-white
+		@apply dark:text-white hover:text-gray-400
 	}
 
 	button {
