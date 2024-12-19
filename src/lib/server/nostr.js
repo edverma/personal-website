@@ -5,9 +5,8 @@ import { NOSTR_RELAYS, NOSTR_SECRET_KEY } from '$env/static/private';
 
 export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summary, published_at, slug) => {
     const relayUrls = NOSTR_RELAYS.split(',').map(url => url.trim());
-    // Convert the hex string secret key to Uint8Array
-    const secretKeyBytes = new Uint8Array(NOSTR_SECRET_KEY.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
-    const nsec = secretKeyBytes;  // No need to encode as nsec since we'll use it directly
+    let { type, data } = nip19.decode(NOSTR_SECRET_KEY)
+    const nsec = data;
     const npub = getPublicKey(nsec);
 
     // Create a relay pool
@@ -37,8 +36,5 @@ export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summ
     } catch(err) {
         console.error('Error publishing event:', err);
         throw err;
-    } finally {
-        // Make sure to close the pool
-        pool.close()
     }
 }
