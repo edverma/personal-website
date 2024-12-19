@@ -10,6 +10,20 @@
 	let tag = $page.url.searchParams.get('tag') || 'news';
 </script>
 
+<svelte:head>
+	<link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
+	<link rel="alternate" type="application/rss+xml" href="/rss.xml"/>
+	<title>Evan's Weekly Newsletter | Tech, Software, and Personal Updates</title>
+	<meta name="description" content="Join Evan's Weekly Newsletter for insights on software development, technology trends, and personal updates. Subscribe for regular articles on tech, coding, and more." />
+	<meta property="og:title" content="Evan's Weekly Newsletter | Tech, Software, and Personal Updates" />
+	<meta property="og:description" content="Join Evan's Weekly Newsletter for insights on software development, technology trends, and personal updates." />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://evanverma.com" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="Evan's Weekly Newsletter" />
+	<meta name="twitter:description" content="Tech insights, software development, and personal updates from Evan." />
+</svelte:head>
+
 <div class="grid grid-cols-2">
 	<div>
 		<div class="text-xl {tag === 'about' ? 'font-bold' : 'font-extralight'} text-left">
