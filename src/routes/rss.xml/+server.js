@@ -20,7 +20,7 @@ export async function GET() {
                             <title>${escapeXml(post.title)}</title>
                             <link>${BASE_URL}/${post.slug}</link>
                             <description>${escapeXml(post.description || '')}</description>
-                            <pubDate>${new Date(post.created_at).toString()}</pubDate>
+                            <pubDate>${toRFC822(new Date(post.created_at))}</pubDate>
                             <guid>${BASE_URL}/${post.slug}</guid>
                         </item>
                     `
@@ -50,3 +50,17 @@ function escapeXml(unsafe) {
             }
         });
 } 
+
+function toRFC822(date) {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    const day = days[date.getDay()];
+    const month = months[date.getMonth()];
+    const dateNum = date.getDate();
+    const year = date.getFullYear();
+    const time = date.toTimeString().slice(0, 8);
+    const offset = date.toString().match(/[-+]\d{4}/)[0];
+    
+    return `${day}, ${dateNum} ${month} ${year} ${time} ${offset}`;
+}
