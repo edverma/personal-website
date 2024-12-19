@@ -1,6 +1,5 @@
 <script>
     import { browser } from "$app/environment";
-    import { onMount } from "svelte";
     import Preview from '$lib/components/Preview.svelte';
     export let data;
     let post = data.post;

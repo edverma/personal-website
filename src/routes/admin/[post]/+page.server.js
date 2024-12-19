@@ -86,7 +86,7 @@ export const actions = {
         const created_at = data.get('created_at');
 
         try {
-            await publishLongFormNote(content, title, img_src, description, created_at);
+            await publishLongFormNote(content, title, img_src, description, created_at, params.post);
             await setNostrLongformPublished(params.post);
         } catch(err) {
             console.error(err);
