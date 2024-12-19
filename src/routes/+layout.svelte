@@ -14,7 +14,7 @@ import {dev} from "$app/environment";
 </head>
 
 
-<div class="flex max-w-screen-xl mx-auto my-8 min-h-[90vh]">
+<div class="flex max-w-screen-xl mx-auto my-8 min-h-[90vh] dark:bg-slate-800">
 	<div class="p-4 w-11/12 md:w-9/12 mx-auto">
 		<Header/>
 		<slot/>

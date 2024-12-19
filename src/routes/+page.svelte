@@ -13,13 +13,13 @@
 <div class="grid grid-cols-2">
 	<div>
 		<div class="text-xl {tag === 'about' ? 'font-bold' : 'font-extralight'} text-left">
-			<button class="text-black" on:click={() => tag = 'about'}>
+			<button class="" on:click={() => tag = 'about'}>
 				About
 			</button>
 		</div>
 		<br/><br/>
 		<div class="text-xl {tag === 'subscribe' ? 'font-bold' : 'font-extralight'} text-left">
-			<button class="text-black" on:click={() => tag = 'subscribe'}>
+			<button class="" on:click={() => tag = 'subscribe'}>
 				Subscribe
 			</button>
 		</div>
@@ -29,7 +29,7 @@
 			{#if dbTag.slug !== 'about'}
 				<br/>
 				<div class="text-xl {tag === dbTag.slug ? 'font-bold' : 'font-extralight'} text-left">
-					<button class="text-black" on:click={() => tag = dbTag.slug}>
+					<button class="" on:click={() => tag = dbTag.slug}>
 						{dbTag.name}
 					</button>
 				</div>
@@ -48,7 +48,7 @@
 				{#if post.tags.includes(tag)}
 					<br/>
 					<div class="text-xl font-extralight text-right">
-						<a class="text-black" href="/{post.slug}"> {post.title}</a>
+						<a class="" href="/{post.slug}"> {post.title}</a>
 					</div>
 					<br/>
 				{/if}

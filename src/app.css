@@ -12,4 +12,23 @@
 		src: url('/fonts/quicksand.css') format('woff2');
 	}
 
+	body {
+		@apply dark:bg-slate-800 dark:text-white
+	}
+
+	p {
+		@apply dark:text-white
+	}
+
+	a {
+		@apply dark:text-white
+	}
+
+	button {
+		@apply dark:text-white
+	}
+
+	hr {
+		@apply dark:text-white
+	}
 }
