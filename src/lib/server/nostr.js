@@ -54,8 +54,8 @@ export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summ
 
     // Publish the event
     try {
-        await Promise.all(pool.publish(relayUrls, signedEvent))
-        console.log('published to all relays successfully!')
+        await Promise.any(pool.publish(relayUrls, signedEvent))
+        console.log('published to at least one relay!')
     } catch(err) {
         console.error('Error publishing event:', err);
         throw err;
