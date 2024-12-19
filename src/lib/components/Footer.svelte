@@ -5,7 +5,7 @@ function getRssFeed() {
 }
 </script>
 
-<div class="text-center my-12 text-gray-500">
+<div class="text-center my-8 text-gray-500">
     <div class="flex justify-center items-center gap-2 mb-4">
         <button on:click={getRssFeed} class="hover:text-gray-400 flex items-center gap-2" title="RSS Feed">
             <span class="text-xs">RSS Feed</span>
