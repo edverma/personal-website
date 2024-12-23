@@ -17,15 +17,21 @@
 		}
 
 		try {
-			const response = await fetch(form.action, {
-				method: form.method,
-				body: formData
+			const response = await fetch('/api/subscribe', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					name: formData.get('name'),
+					email: formData.get('email')
+				})
 			});
 
 			const result = await response.json();
-            console.log('result: ', result);
+			console.log('result: ', result);
 
-			if (result.type === 'success') {
+			if (result.success === true) {
 				successMessage = 'Thank you for subscribing!';
 			} else {
 				errorMessage = result.error || 'Failed to subscribe. Please try again.';
@@ -38,7 +44,7 @@
 	}
 </script>
 
-<form method="post" action="?/subscribe" class="max-w-md ml-8 mt-8" on:submit={handleSubmit}>
+<form class="max-w-md ml-8 mt-8" on:submit={handleSubmit}>
 	<div class="mb-4">
 		<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2" for="name">
 			Name

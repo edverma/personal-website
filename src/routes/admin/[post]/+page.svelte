@@ -22,43 +22,78 @@
     }
 
     async function sendEmail() {
-        const formData = new FormData();
-        formData.append('secret', secret);
-        formData.append('title', title);
-        formData.append('content', content);
-        formData.append('description', description);
-        formData.append('img_src', img_src);
-        formData.append('created_at', post.created_at);
-        await fetch(`/admin/${post.slug}?/sendEmail`, {
+        const response = await fetch(`/api/admin/posts/${post.slug}/email`, {
             method: 'POST',
-            body: formData
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                secret,
+                title,
+                content
+            })
         });
+        
+        if (!response.ok) {
+            alert('Failed to send email');
+        }
     }
 
     async function publishLongFormNote() {
-        const formData = new FormData();
-        formData.append('secret', secret);
-        formData.append('title', title);
-        formData.append('content', content);
-        formData.append('description', description);
-        formData.append('img_src', img_src);
-        formData.append('created_at', post.created_at);
-        await fetch(`/admin/${post.slug}?/publishLongFormNote`, {
+        const response = await fetch(`/api/admin/posts/${post.slug}/nostr`, {
             method: 'POST',
-            body: formData
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                secret,
+                title,
+                content,
+                description,
+                img_src,
+                created_at: post.created_at
+            })
         });
+
+        if (!response.ok) {
+            alert('Failed to publish to Nostr');
+        }
     }
 
     async function deletePost() {
         if (confirm('Are you sure you want to delete this post?')) {
-            const formData = new FormData();
-            formData.append('secret', secret);
-            await fetch(`/admin/${post.slug}?/delete`, {
-                method: 'POST',
-                body: formData
+            const response = await fetch(`/api/admin/posts/${post.slug}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ secret })
             });
-            // Redirect to admin page after deletion
+
+            const result = await response.json();
+            if (result.success === true) {
+                window.location.href = '/admin';
+            } else {
+                alert('Failed to delete post');
+            }
+        }
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const response = await fetch(`/api/admin/posts/${post.slug}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                secret,
+                title,
+                tags,
+                description,
+                img_src,
+                content,
+                slug
+            })
+        });
+
+        const result = await response.json();
+        if (result.success === true) {
             window.location.href = '/admin';
+        } else {
+            alert('Failed to update post');
         }
     }
 </script>
@@ -69,7 +104,7 @@
 
 <h1>Edit Post</h1>
 
-<form action={`/admin/${post.slug}?/update`} method="POST">
+<form on:submit={handleSubmit}>
     <div class="mb-4">
         <label for="title" class="block text-sm font-medium text-gray-700 dark:text-white">Title</label>
         <input type="text" id="title" name="title" bind:value={title} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-gray-700 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />

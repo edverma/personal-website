@@ -30,7 +30,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-node": "^5.2.10",
+		"@sveltejs/adapter-static": "^3.0.8",
 		"@vercel/analytics": "^1.2.2",
 		"aws-sdk": "^2.1692.0",
 		"node-fetch": "^3.3.2",

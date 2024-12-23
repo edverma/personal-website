@@ -52,6 +52,39 @@
             localStorage.setItem('newpost_img_src', img_src);
         }
     }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        
+        const payload = {
+            title,
+            tags,
+            description,
+            content,
+            secret,
+            img_src
+        };
+
+        try {
+            const response = await fetch('/api/admin/new-post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to create post');
+            }
+
+            // Clear form or redirect after successful submission
+            // window.location.href = '/admin'; // Uncomment to redirect
+        } catch (error) {
+            console.error('Error creating post:', error);
+            // Handle error (show message to user, etc.)
+        }
+    }
 </script>
 
 {#if showPreview}
@@ -60,7 +93,7 @@
 
 <h1>Create New Post</h1>
 
-<form action="/admin/new-post?/create" method="POST">
+<form on:submit={handleSubmit}>
     <div class="mb-4">
         <label for="title" class="block text-sm font-medium text-gray-700 dark:text-white">Title</label>
         <input type="text" id="title" name="title" bind:value={title} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-gray-700 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />

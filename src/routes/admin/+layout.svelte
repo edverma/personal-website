@@ -1,6 +1,5 @@
 <script>
 import {browser} from "$app/environment";
-import {writable} from "svelte/store";
 import {onMount} from "svelte";
 import {goto} from "$app/navigation";
 
@@ -16,12 +15,12 @@ if (browser) {
     }
 
     try {
-        const formData = new FormData();
-        formData.append('secret', secret);
-        
-        const res = await fetch(`/admin?/authn`, {
+        const res = await fetch(`/api/authn`, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ secret })
         });
         
         authn = res.ok;
