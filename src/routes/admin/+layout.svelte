@@ -18,9 +18,9 @@ if (browser) {
         const res = await fetch(`/api/authn`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ secret })
+                'Content-Type': 'application/json',
+                'X-Secret': secret
+            }
         });
         
         authn = res.ok;

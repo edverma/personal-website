@@ -6,11 +6,12 @@ import { storeImages } from '$lib';
 // PUT /api/posts/[slug]
 export async function PUT({ request, params }) {
     try {
-        const { secret, title, tags, description, img_src, content, slug } = await request.json();
-        
+        const secret = request.headers.get('X-Secret');
         if (secret !== SECRET) {
             return new Response('Unauthorized', { status: 401 });
         }
+
+        const { title, tags, description, img_src, content, slug } = await request.json();
 
         if (!title || !slug) {
             return json({ 

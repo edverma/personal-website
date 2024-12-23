@@ -4,12 +4,12 @@ import { publishLongFormNote } from '$lib/server/nostr.js';
 
 // POST /api/posts/[slug]/nostr
 export async function POST({ request, params }) {
-    const { secret, title, content, description, img_src, created_at } = await request.json();
-    
+    const secret = request.headers.get('X-Secret');
     if (secret !== SECRET) {
         return new Response('Unauthorized', { status: 401 });
     }
 
+    const { title, content, description, img_src, created_at } = await request.json();
     try {
         await publishLongFormNote(
             content,

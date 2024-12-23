@@ -24,9 +24,8 @@
     async function sendEmail() {
         const response = await fetch(`/api/admin/posts/${post.slug}/email`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'X-Secret': secret },
             body: JSON.stringify({
-                secret,
                 title,
                 content
             })
@@ -40,9 +39,8 @@
     async function publishLongFormNote() {
         const response = await fetch(`/api/admin/posts/${post.slug}/nostr`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'X-Secret': secret },
             body: JSON.stringify({
-                secret,
                 title,
                 content,
                 description,
@@ -60,8 +58,7 @@
         if (confirm('Are you sure you want to delete this post?')) {
             const response = await fetch(`/api/admin/posts/${post.slug}`, {
                 method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ secret })
+                headers: { 'Content-Type': 'application/json', 'X-Secret': secret },
             });
 
             const result = await response.json();
@@ -77,9 +74,8 @@
         event.preventDefault();
         const response = await fetch(`/api/admin/posts/${post.slug}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'X-Secret': secret },
             body: JSON.stringify({
-                secret,
                 title,
                 tags,
                 description,

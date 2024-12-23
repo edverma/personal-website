@@ -6,22 +6,23 @@ import { getSlug, storeImages } from '$lib';
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
     try {
-        const data = await request.json();
-        const { secret, title, tags, description, img_src, content } = data;
-
-        // Validate required fields
-        if (!secret || !title || !tags || !description || !content) {
-            return json({ 
-                success: false, 
-                error: 'Missing required fields' 
-            }, { status: 400 });
-        }
-
+        const secret = request.headers.get('X-Secret');
         if (secret !== SECRET) {
             return json({ 
                 success: false, 
                 error: 'Invalid credentials' 
             }, { status: 401 });
+        }
+
+        const data = await request.json();
+        const { title, tags, description, img_src, content } = data;
+
+        // Validate required fields
+        if (!title || !tags || !description || !content) {
+            return json({ 
+                success: false, 
+                error: 'Missing required fields' 
+            }, { status: 400 });
         }
 
         const processedContent = await storeImages(content);

@@ -61,7 +61,6 @@
             tags,
             description,
             content,
-            secret,
             img_src
         };
 
@@ -70,6 +69,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-Secret': secret
                 },
                 body: JSON.stringify(payload)
             });

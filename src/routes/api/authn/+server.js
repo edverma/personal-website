@@ -1,10 +1,9 @@
 import { SECRET } from '$env/static/private';
+import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
-    const data = await request.json();
-
-    const { secret } = data;
+    const secret = request.headers.get('X-Secret');
     if (secret === SECRET) {
         return new Response(JSON.stringify({ success: true }), {
             status: 200,

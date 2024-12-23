@@ -6,12 +6,12 @@ import marked from '$lib/marked';
 
 // POST /api/posts/[slug]/email
 export async function POST({ request, params }) {
-    const { secret, title, content } = await request.json();
-    
+    const secret = request.headers.get('X-Secret');
     if (secret !== SECRET) {
         return new Response('Unauthorized', { status: 401 });
     }
 
+    const { title, content } = await request.json();
     try {
         await sendNewsletter(title.trim(), marked(content));
         await setEmailSent(params.slug);
