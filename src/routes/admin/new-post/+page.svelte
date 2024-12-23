@@ -79,7 +79,7 @@
             }
 
             // Clear form or redirect after successful submission
-            // window.location.href = '/admin'; // Uncomment to redirect
+            window.location.href = '/admin'; // Uncomment to redirect
         } catch (error) {
             console.error('Error creating post:', error);
             // Handle error (show message to user, etc.)

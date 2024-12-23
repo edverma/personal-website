@@ -2,12 +2,17 @@
 	import Subscribe from "$lib/components/Subscribe.svelte";
 	import About from "$lib/components/About.svelte";
 	import {page} from '$app/stores';
+	import {onMount} from 'svelte';
 
 	export let data;
 	const posts = data.posts || [];
 	const aboutPost = data.aboutPost || {};
 	const dbTags = data.dbTags || [];
-	let tag = $page.url.searchParams.get('tag') || 'news';
+	let tag = 'news';
+
+	onMount(() => {
+		tag = $page.url.searchParams.get('tag') || 'news';
+	});
 </script>
 
 <svelte:head>
