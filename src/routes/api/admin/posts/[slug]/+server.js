@@ -43,7 +43,7 @@ export async function PUT({ request, params }) {
 // DELETE /api/posts/[slug]
 export async function DELETE({ request, params }) {
     try {
-        const { secret } = await request.json();
+        const secret = request.headers.get('X-Secret');
         
         if (secret !== SECRET) {
             return new Response('Unauthorized', { status: 401 });
