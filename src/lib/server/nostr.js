@@ -1,9 +1,9 @@
-import { getEventHash, getPublicKey, finalizeEvent } from 'nostr-tools';
+import { finalizeEvent } from 'nostr-tools';
 import { SimplePool } from 'nostr-tools/pool';
 import * as nip19 from 'nostr-tools/nip19'
 import { NOSTR_RELAYS, NOSTR_SECRET_KEY } from '$env/static/private';
 
-const selfHostedRelayUrl = "wss://relay.evanverma.com"
+const selfHostedRelayUrl = ["wss://relay.evanverma.com"]
 
 export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summary, published_at, slug) => {
     // Normalize markdown: split on double newlines to preserve paragraph structure
