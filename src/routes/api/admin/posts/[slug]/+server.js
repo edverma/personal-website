@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
-import { updatePost, deletePost } from "$lib/server/db.ts";
+import { updatePost, deletePost, getPostBySlug } from "$lib/server/db.ts";
 import { SECRET } from '$env/static/private';
-import { storeImages } from '$lib';
+import { create_and_replace_content_image_links, get_header_image_markdown } from '$lib/server';
 
 // PUT /api/posts/[slug]
 export async function PUT({ request, params }) {
@@ -20,13 +20,21 @@ export async function PUT({ request, params }) {
             }, { status: 400 });
         }
 
-        const processedContent = await storeImages(content);
+        let contentWithHeaderImage = content;
+        let finalImgSrc = img_src;
+        if (img_src) {
+            const {headerImageLink, headerImageMarkdown} = await get_header_image_markdown(img_src, slug);
+            contentWithHeaderImage = headerImageMarkdown + content;
+            finalImgSrc = headerImageLink;
+        }
+        const processedContent = await create_and_replace_content_image_links(contentWithHeaderImage);
+
         await updatePost(params.slug, { 
             title: title.trim(),
             tags: Array.isArray(tags) ? tags.join(',') : (tags?.trim() || ''),
             description: description?.trim() || '',
             slug: slug.trim(),
-            img_src: img_src?.trim() || '',
+            img_src: finalImgSrc?.trim() || '',
             content: processedContent
         });
 
@@ -61,7 +69,7 @@ export async function DELETE({ request, params }) {
     } catch (error) {
         console.error('Error deleting post:', error);
         return json({ 
-            success: false, 
+            success: false,  
             error: 'Failed to delete post' 
         }, { status: 500 });
     }

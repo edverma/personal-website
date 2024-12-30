@@ -174,6 +174,13 @@ export async function setEmailSent(slug: string) {
     UPDATE posts SET email_sent = TRUE WHERE slug = $1
   `;
   await query(queryText, [slug]);
+} 
+
+export async function setImgSrc(slug: string, img_src: string) {
+    const queryText = `
+      UPDATE posts SET img_src = $1 WHERE slug = $2
+    `;
+    await query(queryText, [img_src, slug]);
 }
 
 export async function deletePost(slug: string) {

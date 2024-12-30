@@ -1,7 +1,8 @@
 import { SECRET } from '$env/static/private';
-import { insertPost } from '$lib/server/db.ts';
+import { insertPost, getPostBySlug } from '$lib/server/db.ts';
 import { json } from '@sveltejs/kit';
-import { getSlug, storeImages } from '$lib';
+import { create_and_replace_content_image_links, get_header_image_markdown } from '$lib/server';
+import { getSlug } from '$lib';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
@@ -25,15 +26,22 @@ export async function POST({ request }) {
             }, { status: 400 });
         }
 
-        const processedContent = await storeImages(content);
         const slug = getSlug(title);
+        let contentWithHeaderImage = content;
+        let finalImgSrc = img_src;
+        if (img_src) {
+            const {headerImageLink, headerImageMarkdown} = await get_header_image_markdown(img_src, slug);
+            finalImgSrc = headerImageLink;
+            contentWithHeaderImage = headerImageMarkdown + content;
+        }
+        const processedContent = await create_and_replace_content_image_links(contentWithHeaderImage);
 
         await insertPost({
             title: title.trim(),
             tags: tags.trim(),
             description: description.trim(),
             slug,
-            img_src: img_src?.trim() || '',
+            img_src: finalImgSrc?.trim() || '',
             content: processedContent
         });
 
