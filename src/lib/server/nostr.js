@@ -3,6 +3,8 @@ import { SimplePool } from 'nostr-tools/pool';
 import * as nip19 from 'nostr-tools/nip19'
 import { NOSTR_RELAYS, NOSTR_SECRET_KEY } from '$env/static/private';
 
+const selfHostedRelayUrl = "wss://relay.evanverma.com"
+
 export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summary, published_at, slug) => {
     // Normalize markdown: split on double newlines to preserve paragraph structure
     const normalizedContent = contentMarkdown
@@ -41,7 +43,16 @@ export const publishLongFormNote = async (contentMarkdown, title, imageUrl, summ
 
     const signedEvent = finalizeEvent(event, nsec)
 
-    // Publish the event
+    // Publish the event to self hosted relay
+    try {
+        await Promise.any(pool.publish(selfHostedRelayUrl, signedEvent))
+        console.log('published to at least one relay!')
+    } catch(err) {
+        console.error('Error publishing event:', err);
+        throw err;
+    }
+
+    // Publish the event to other relays
     try {
         await Promise.any(pool.publish(relayUrls, signedEvent))
         console.log('published to at least one relay!')
