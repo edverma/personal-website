@@ -1,5 +1,3 @@
-export const prerender = true;
-
 const nostrObject = {
     names: {
         _: "npub18hwy8hmnwk2t66qj3mxjqkkekcwk2p0hde5h6fm74zujtyvxk95qd6xcwr"
