@@ -1,9 +1,13 @@
-import '$lib/server/websocket-polyfill.js';
-
 import { finalizeEvent } from 'nostr-tools';
 import { SimplePool } from 'nostr-tools/pool';
 import * as nip19 from 'nostr-tools/nip19';
 import { NOSTR_RELAYS, NOSTR_SECRET_KEY } from '$env/static/private';
+import { WebSocket } from 'ws';
+
+// Ensure that we have a global WebSocket available, in case the environment is Node.
+if (typeof globalThis !== 'undefined' && !globalThis.WebSocket) {
+    globalThis.WebSocket = WebSocket;
+}
 
 const selfHostedRelayUrl = "wss://relay.evanverma.com"
 
