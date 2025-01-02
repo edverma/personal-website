@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: sudo rm -rf /home/${{secrets.USERNAME}}/src
+          script: sudo rm -rf /home/${{secrets.USERNAME}}/src /home/${{secrets.USERNAME}}/package-lock.json /home/${{secrets.USERNAME}}/node_modules
       - name: Copy repo to Server
         uses: appleboy/scp-action@master
         with:
