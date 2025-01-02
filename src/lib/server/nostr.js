@@ -4,8 +4,8 @@ import * as nip19 from 'nostr-tools/nip19';
 import { NOSTR_RELAYS, NOSTR_SECRET_KEY } from '$env/static/private';
 import { WebSocket } from 'ws';
 
-// Ensure that we have a global WebSocket available, in case the environment is Node.
-if (typeof globalThis !== 'undefined' && !globalThis.WebSocket) {
+// Only set WebSocket in Node.js environment
+if (typeof process !== 'undefined' && process.versions?.node) {
     globalThis.WebSocket = WebSocket;
 }
 
