@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Delete existing files
+      - name: Delete source directory
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: sudo rm -rf /home/${{secrets.USERNAME}}/*
+          script: sudo rm -rf /home/${{secrets.USERNAME}}/src
       - name: Copy repo to Server
         uses: appleboy/scp-action@master
         with:
