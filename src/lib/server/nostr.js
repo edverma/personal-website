@@ -1,7 +1,10 @@
+import { WebSocket } from 'ws';
 import { finalizeEvent } from 'nostr-tools';
 import { SimplePool } from 'nostr-tools/pool';
 import * as nip19 from 'nostr-tools/nip19'
 import { NOSTR_RELAYS, NOSTR_SECRET_KEY } from '$env/static/private';
+
+global.WebSocket = WebSocket;
 
 const selfHostedRelayUrl = "wss://relay.evanverma.com"
 
