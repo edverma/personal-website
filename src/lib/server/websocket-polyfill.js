@@ -1,6 +1,6 @@
-import { WebSocket } from 'ws';
-
-// Ensure that we have a global WebSocket available, in case the environment is Node.
-if (typeof globalThis !== 'undefined' && !globalThis.WebSocket) {
+// Only load `ws` at runtime on the server side.
+if (typeof window === 'undefined') {
+    const { WebSocket } = await import('ws');
+    // Provide globalThis.WebSocket for Nostr libraries
     globalThis.WebSocket = WebSocket;
 }
