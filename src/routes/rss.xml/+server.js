@@ -29,7 +29,7 @@ export async function GET() {
                             <title>${escapeXml(post.title)}</title>
                             <link>${BASE_URL}/${post.slug}</link>
                             <description>${escapeXml(post.description || '')}</description>
-                            <author>edverma@gmail.com</author>
+                            <author>edverma@gmail.com (Evan Verma)</author>
                             ${post.tags.map(tag => `<category>${tag}</category>`).join('')}
                             <pubDate>${toRFC822(new Date(post.created_at))}</pubDate>
                             <guid>${BASE_URL}/${post.slug}</guid>
