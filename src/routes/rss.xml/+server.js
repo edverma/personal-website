@@ -12,6 +12,9 @@ export async function GET() {
                 <title>Evan's Weekly Newsletter</title>
                 <description>Tech insights, software development, and personal updates from Evan.</description>
                 <link>${BASE_URL}</link>
+                <language>en-us</language>
+                <managingEditor>edverma@gmail.com</managingEditor>
+                <webMaster>edverma@gmail.com</webMaster>
                 <atom:link href="${BASE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
                 ${posts
                     .map(
@@ -20,8 +23,12 @@ export async function GET() {
                             <title>${escapeXml(post.title)}</title>
                             <link>${BASE_URL}/${post.slug}</link>
                             <description>${escapeXml(post.description || '')}</description>
+                            <author>Evan Verma</author>
+                            ${post.tags.map(tag => `<category>${tag}</category>`).join('')}
                             <pubDate>${toRFC822(new Date(post.created_at))}</pubDate>
                             <guid>${BASE_URL}/${post.slug}</guid>
+                            <content:encoded><![CDATA[${post.content}]]></content:encoded>
+
                         </item>
                     `
                     )
