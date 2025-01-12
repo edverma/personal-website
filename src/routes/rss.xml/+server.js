@@ -1,13 +1,19 @@
 import { getPosts } from '$lib/server/db.ts';
 import { BASE_URL } from '$env/static/private';
+import marked from '$lib/marked';
 
 export async function GET() {
     // Fetch your posts (adjust this based on your database structure)
     const posts = await getPosts([], true);
+    posts.forEach(post => {
+        post.content = marked(post.content);
+    });
     
     // Create RSS feed XML
     const xml = `<?xml version="1.0" encoding="UTF-8" ?>
-        <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+        <rss version="2.0" 
+             xmlns:atom="http://www.w3.org/2005/Atom"
+             xmlns:content="http://purl.org/rss/1.0/modules/content/">
             <channel>
                 <title>Evan's Weekly Newsletter</title>
                 <description>Tech insights, software development, and personal updates from Evan.</description>
@@ -23,7 +29,7 @@ export async function GET() {
                             <title>${escapeXml(post.title)}</title>
                             <link>${BASE_URL}/${post.slug}</link>
                             <description>${escapeXml(post.description || '')}</description>
-                            <author>Evan Verma</author>
+                            <author>edverma@gmail.com</author>
                             ${post.tags.map(tag => `<category>${tag}</category>`).join('')}
                             <pubDate>${toRFC822(new Date(post.created_at))}</pubDate>
                             <guid>${BASE_URL}/${post.slug}</guid>
