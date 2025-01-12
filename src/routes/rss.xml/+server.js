@@ -3,7 +3,7 @@ import { BASE_URL } from '$env/static/private';
 
 export async function GET() {
     // Fetch your posts (adjust this based on your database structure)
-    const posts = await getPosts();
+    const posts = await getPosts([], true);
     
     // Create RSS feed XML
     const xml = `<?xml version="1.0" encoding="UTF-8" ?>

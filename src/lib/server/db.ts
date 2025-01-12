@@ -27,11 +27,12 @@ export async function query(text: string, params?: any[]) {
   }
 }
 
-export async function getPosts(tags: string[]) {
+export async function getPosts(tags: string[], withContent: boolean = false) {
   let queryText = `
       SELECT posts.id, posts.title, posts.description, posts.slug, posts.email_sent,
              posts.created_at, posts.updated_at,
              array_agg(tags.slug) AS tags
+      ${withContent ? ', posts.content' : ''}
       FROM posts
       LEFT JOIN post_tags ON posts.id = post_tags.post_id
       LEFT JOIN tags ON post_tags.tag_id = tags.id
