@@ -1,5 +1,5 @@
 import { getPosts } from '$lib/server/db.ts';
-import { BASE_URL } from '$env/static/private';
+import { PUBLIC_BASE_URL } from '$env/static/public';
 import marked from '$lib/marked';
 
 export async function GET() {
@@ -17,22 +17,22 @@ export async function GET() {
             <channel>
                 <title>Evan's Weekly Newsletter</title>
                 <description>Tech insights, software development, and personal updates from Evan.</description>
-                <link>${BASE_URL}</link>
+                <link>${PUBLIC_BASE_URL}</link>
                 <language>en-us</language>
                 <managingEditor>edverma@gmail.com</managingEditor>
                 <webMaster>edverma@gmail.com</webMaster>
-                <atom:link href="${BASE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
+                <atom:link href="${PUBLIC_BASE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
                 ${posts
                     .map(
                         (post) => `
                         <item>
                             <title>${escapeXml(post.title)}</title>
-                            <link>${BASE_URL}/${post.slug}</link>
+                            <link>${PUBLIC_BASE_URL}/${post.slug}</link>
                             <description>${escapeXml(post.description || '')}</description>
                             <author>edverma@gmail.com (Evan Verma)</author>
                             ${post.tags.map(tag => `<category>${tag}</category>`).join('')}
                             <pubDate>${toRFC822(new Date(post.created_at))}</pubDate>
-                            <guid>${BASE_URL}/${post.slug}</guid>
+                            <guid>${PUBLIC_BASE_URL}/${post.slug}</guid>
                             <content:encoded><![CDATA[${post.content}]]></content:encoded>
 
                         </item>
