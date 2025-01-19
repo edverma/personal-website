@@ -1,4 +1,6 @@
-# Personal Website & Newsletter Platform
+# Evan's Weekly Newsletter Codebase
+
+[https://evanverma.com](https://evanverma.com)
 
 A modern, flexible personal website and newsletter platform built with SvelteKit, PostgreSQL, and Tailwind CSS. Features include blog post management, email newsletter distribution via Mailgun, Nostr integration, and RSS feed generation.
 
