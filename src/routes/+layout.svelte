@@ -35,7 +35,8 @@ function toggleDarkMode() {
 	<meta name=”robots” content=”noindex”>
 
 	{#if !dev}
-	<script defer data-domain="evanverma.com" src="https://plausible.evanverma.com/js/script.js"></script>
+	<script defer data-domain="evanverma.com" src="https://plausible.evanverma.com/js/script.tagged-events.js"></script>
+	<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script> 
 	{/if}
 </head>
 

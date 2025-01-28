@@ -1,4 +1,6 @@
 <script>
+	import { page } from '$app/stores';
+
 	export let footer = false;
 
 	let errorMessage = '';
@@ -30,10 +32,9 @@
 				})
 			});
 
-			const result = await response.json();
-			console.log('result: ', result);
-
+			const result = await response.json(); 
 			if (result.success === true) {
+				plausible('Email Signup', {props: {position: $page.url.pathname}})
 				successMessage = 'Thank you for subscribing!';
 			} else {
 				errorMessage = result.error || 'Failed to subscribe. Please try again.';
