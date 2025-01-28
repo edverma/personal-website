@@ -1,9 +1,18 @@
 <script>
-function getRssFeed() {
-    // Open RSS feed in new tab
-    window.open('/rss.xml', '_blank');
-}
+    import { page } from '$app/stores';
+    import Subscribe from '$lib/components/Subscribe.svelte';
+
+    function getRssFeed() {
+        // Open RSS feed in new tab
+        window.open('/rss.xml', '_blank');
+    }
 </script>
+
+{#if $page.url.pathname !== '/'}
+    <div class="flex justify-center items-center">
+        <Subscribe footer={true}/>
+    </div>
+{/if}
 
 <div class="text-center my-10 text-gray-500">
     <div class="flex justify-center items-center gap-2 mb-4">

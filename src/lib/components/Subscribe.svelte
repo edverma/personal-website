@@ -1,4 +1,6 @@
 <script>
+	export let footer = false;
+
 	let errorMessage = '';
 	let successMessage = '';
 
@@ -44,20 +46,20 @@
 	}
 </script>
 
-<form class="max-w-md ml-8 mt-8" on:submit={handleSubmit}>
-	<div class="mb-4">
+<form class="{footer ? '' : 'max-w-md ml-8'} mt-8 {footer ? 'flex flex-row items-center gap-4' : ''}" on:submit={handleSubmit}>
+	<div class="{footer ? 'flex-1' : 'mb-4'}">
 		<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2" for="name">
 			Name
 		</label>
-		<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="Your name" required>
+		<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="{footer ? 'Name' : 'Your name'}" required>
 	</div>
-	<div class="mb-4">
+	<div class="{footer ? 'flex-1' : 'mb-4'}">
 		<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2" for="email">
 			Email
 		</label>
-		<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="email" placeholder="Your email" required>
+		<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="email" placeholder="{footer ? 'Email' : 'Your email'}" required>
 	</div>
-	<div class="flex items-end justify-end">
+	<div class="{footer ? 'self-end' : 'flex items-end justify-end'}">
 		<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
 			Subscribe
 		</button>
