@@ -3,6 +3,7 @@
 	import About from "$lib/components/About.svelte";
 	import {page} from '$app/stores';
 	import {onMount} from 'svelte';
+	import Downloadables from '$lib/components/Downloadables.svelte';
 
 	export let data;
 	const posts = data.posts || [];
@@ -37,6 +38,12 @@
 			</button>
 		</div>
 		<br/><br/>
+		<div class="text-xl {tag === 'downloadables' ? 'font-bold' : 'font-extralight'} text-left">
+			<button class="hover:text-gray-400" on:click={() => tag = 'downloadables'}>
+				Downloadables
+			</button>
+		</div>
+		<br/><br/>
 		<div class="text-xl {tag === 'subscribe' ? 'font-bold' : 'font-extralight'} text-left">
 			<button class="hover:text-gray-400" on:click={() => tag = 'subscribe'}>
 				Subscribe
@@ -62,6 +69,8 @@
 		<Subscribe/>
 		{:else if tag === 'about'}
 			<About content={aboutPost.content}/>
+		{:else if tag === 'downloadables'}
+			<Downloadables/>
 		{:else}
 			{#each posts as post (post.id)}
 				{#if post.tags.includes(tag)}
