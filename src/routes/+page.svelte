@@ -4,16 +4,18 @@
 	import {page} from '$app/stores';
 	import {onMount} from 'svelte';
 	import Downloadables from '$lib/components/Downloadables.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data;
 	const posts = data.posts || [];
 	const aboutPost = data.aboutPost || {};
 	const dbTags = data.dbTags || [];
-	let tag = 'news';
-
-	onMount(() => {
-		tag = $page.url.searchParams.get('tag') || 'news';
-	});
+	$: tag = $page.url.searchParams.get('tag') || 'news';
+	$: {
+		const url = new URL($page.url);
+		url.searchParams.set('tag', tag);
+		goto(url, { replaceState: true });
+	}
 </script>
 
 <svelte:head>
