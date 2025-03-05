@@ -2,9 +2,9 @@
 	import Subscribe from "$lib/components/Subscribe.svelte";
 	import About from "$lib/components/About.svelte";
 	import {page} from '$app/stores';
+	import {onMount} from 'svelte';
 	import Downloadables from '$lib/components/Downloadables.svelte';
 	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
 
 	export let data;
 	const posts = data.posts || [];
@@ -12,11 +12,9 @@
 	const dbTags = data.dbTags || [];
 	$: tag = $page.url.searchParams.get('tag') || 'news';
 	$: {
-		if (browser) {
-			const url = new URL($page.url);
-			url.searchParams.set('tag', tag);
-			goto(url, { replaceState: true });
-		}
+		const url = new URL($page.url);
+		url.searchParams.set('tag', tag);
+		goto(url, { replaceState: true });
 	}
 </script>
 
